@@ -17,7 +17,7 @@ GLOVO_HOME = "https://glovoapp.com/en/rs"  # Promenjeno na en/rs
 GLOVO_RESTAURANTS = "https://glovoapp.com/rs/sr/nis/restorani_1/"
 OUTPUT_DIR = Path("./reports")
 OUTPUT_DIR.mkdir(exist_ok=True)
-HEADLESS = False
+HEADLESS = True
 
 SCROLL_PAUSE = 2.0
 MIN_SCROLLS_PER_ADDR = 10
@@ -402,4 +402,5 @@ async def main():
     webbrowser.open(f"file://{os.path.abspath(out_html)}")
 
 if __name__ == "__main__":
+
     asyncio.run(main())
