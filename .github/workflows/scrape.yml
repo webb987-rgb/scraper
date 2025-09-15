@@ -1,0 +1,35 @@
+name: Wolt/Glovo Scraper
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # svakog sata u minutu 0
+  workflow_dispatch:  # omogućava manualno pokretanje
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+        playwright install chromium
+        playwright install-deps
+
+    - name: Run scraper
+      run: |
+        python scrape_restaurants.py
+
+    - name: Upload reports artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: reports
+        path: reports/
