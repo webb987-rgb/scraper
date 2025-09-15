@@ -4,6 +4,11 @@ import json
 import datetime
 import os
 import webbrowser
+# DODAJTE ISPOD IMPORTOVA
+import sys
+print("🐍 Python version:", sys.version)
+print("📁 Current directory:", os.getcwd())
+print("📋 Files in directory:", os.listdir('.'))
 from pathlib import Path
 from urllib.parse import urlparse, urljoin
 import pandas as pd
@@ -401,6 +406,27 @@ async def main():
     print(f"✅ Scraping završen. Rezultati sačuvani u: {out_html}")
     webbrowser.open(f"file://{os.path.abspath(out_html)}")
 
+async def main():
+    try:
+        github_actions_setup()
+        print("🚀 Počinjem scraping...")
+        results = await scrape_all_parallel(ADDRESSES)
+        out_html = save_reports(results)
+        print(f"✅ Scraping završen. Rezultati sačuvani u: {out_html}")
+        
+        # Proverite da li fajlovi postoje
+        if os.path.exists(out_html):
+            print(f"📄 HTML report created: {out_html}")
+        else:
+            print("❌ HTML report was not created!")
+            
+    except Exception as e:
+        print(f"❌ CRITICAL ERROR: {e}")
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)
+
 if __name__ == "__main__":
 
     asyncio.run(main())
+
